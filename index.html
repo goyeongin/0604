@@ -18,6 +18,41 @@
       overflow: hidden;
     }
 
+    .screen {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 1s ease-in-out;
+    }
+
+    #home {
+      z-index: 1;
+      transform: translateY(0);
+    }
+
+    #fashion-page,
+    #perfume-page {
+      background: black;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      transform: translateY(100%);
+    }
+
+    #fashion-page.show,
+    #perfume-page.show {
+      transform: translateY(0%);
+    }
+
+    #home.hide {
+      transform: translateY(-100%);
+    }
+
     .container {
       display: flex;
       width: 100vw;
@@ -33,6 +68,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-end;
+      cursor: pointer;
     }
 
     .split video {
@@ -106,43 +142,91 @@
     .split:hover video {
       filter: brightness(100%);
     }
+
+    .back-button {
+      margin-top: 40px;
+      padding: 12px 24px;
+      background-color: white;
+      color: black;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #ddd;
+    }
+    
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="split left">
-      <video src="youtube_Iwydbar_FmA_1920x1080_h264.mp4" autoplay muted loop playsinline></video>
-      <div class="overlay">
-        <h2>패션 & 액세서리</h2>
-        <a href="#">자세히 보기</a>
+  <!-- 홈 화면 -->
+  <div id="home" class="screen">
+    <div class="container">
+      <div class="split left">
+        <video src="youtube_Iwydbar_FmA_1920x1080_h264.mp4" autoplay muted loop playsinline></video>
+        <div class="overlay">
+          <h2>패션 & 액세서리</h2>
+          <a href="#">자세히 보기</a>
+        </div>
       </div>
-    </div>
 
-    <div class="split right">
-      <video src="youtube_iyHwlKf34-g_1920x1080_h264.mp4" autoplay muted loop playsinline></video>
-      <div class="overlay">
-        <h2>향수</h2>
-        <a href="#">자세히 보기</a>
+      <div class="split right">
+        <video src="youtube_iyHwlKf34-g_1920x1080_h264.mp4" autoplay muted loop playsinline></video>
+        <div class="overlay">
+          <h2>향수</h2>
+          <a href="#">자세히 보기</a>
+        </div>
       </div>
-    </div>
 
-    <div class="center-logo">BULGARI</div>
+      <div class="center-logo">BULGARI</div>
+      <div id="transition-logo">BULGARI</div>
+    </div>
   </div>
+
+  <!-- 패션 페이지 -->
+  <div id="fashion-page" class="screen">
+    <h1 style="font-size: 36px;">패션 페이지에 오신 것을 환영합니다 👜</h1>
+    <button class="back-button">뒤로가기</button>
+  </div>
+
+  <!-- 향수 페이지 -->
+  <div id="perfume-page" class="screen">
+    <h1 style="font-size: 36px;">향수 페이지에 오신 것을 환영합니다 🌸</h1>
+    <button class="back-button">뒤로가기</button>
+  </div>
+
   <script>
     const splits = document.querySelectorAll('.split');
-
     splits.forEach(split => {
       const video = split.querySelector('video');
-      
-      // 초기 상태: 일시정지
       video.pause();
+      split.addEventListener('mouseenter', () => video.play());
+      split.addEventListener('mouseleave', () => video.pause());
+    });
 
-      split.addEventListener('mouseenter', () => {
-        video.play();
-      });
+    const home = document.getElementById('home');
+    const fashionPage = document.getElementById('fashion-page');
+    const perfumePage = document.getElementById('perfume-page');
 
-      split.addEventListener('mouseleave', () => {
-        video.pause();
+    document.querySelector('.split.left').addEventListener('click', () => {
+      home.classList.add('hide');
+      fashionPage.classList.add('show');
+    });
+
+    document.querySelector('.split.right').addEventListener('click', () => {
+      home.classList.add('hide');
+      perfumePage.classList.add('show');
+    });
+
+    document.querySelectorAll('.back-button').forEach(button => {
+      button.addEventListener('click', () => {
+        home.classList.remove('hide');
+        fashionPage.classList.remove('show');
+        perfumePage.classList.remove('show');
       });
     });
   </script>
