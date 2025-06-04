@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dior Style Clone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Pretendard', sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    .split {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      transition: flex 0.5s ease, filter 0.5s ease;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .split video {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(40%);
+      transition: filter 0.5s ease;
+      z-index: 0;
+    }
+
+    .overlay {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-bottom: 60px;
+      color: white;
+    }
+
+    .overlay h2 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .overlay a {
+      position: relative;
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+      padding-bottom: 4px;
+    }
+
+    .overlay a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background-color: white;
+    }
+
+    .overlay a:hover {
+      opacity: 0.7;
+    }
+
+    .center-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      font-family: 'Playfair Display', serif;
+      color: white;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .container:hover .split {
+      flex: 1;
+    }
+
+    .container .split:hover {
+      flex: 1.2;
+    }
+
+    .split:hover video {
+      filter: brightness(100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="split left">
+      <video src="youtube_Iwydbar_FmA_1920x1080_h264.mp4" autoplay muted loop playsinline></video>
+      <div class="overlay">
+        <h2>패션 & 액세서리</h2>
+        <a href="#">자세히 보기</a>
+      </div>
+    </div>
+
+    <div class="split right">
+      <video src="youtube_iyHwlKf34-g_1920x1080_h264.mp4" autoplay muted loop playsinline></video>
+      <div class="overlay">
+        <h2>향수</h2>
+        <a href="#">자세히 보기</a>
+      </div>
+    </div>
+
+    <div class="center-logo">BULGARI</div>
+  </div>
+  <script>
+    const splits = document.querySelectorAll('.split');
+
+    splits.forEach(split => {
+      const video = split.querySelector('video');
+      
+      // 초기 상태: 일시정지
+      video.pause();
+
+      split.addEventListener('mouseenter', () => {
+        video.play();
+      });
+
+      split.addEventListener('mouseleave', () => {
+        video.pause();
+      });
+    });
+  </script>
+</body>
+</html>
